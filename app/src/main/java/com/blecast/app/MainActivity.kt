@@ -131,7 +131,8 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("UnspecifiedRegisterReceiverFlag")
     private fun startCastService(serial: String) {
         val filter = IntentFilter("com.blecast.app.ADVERTISE_CALLBACK")
-        registerReceiver(broadcastReceiver, filter)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) registerReceiver(broadcastReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
+        else registerReceiver(broadcastReceiver, filter)
 
         val intent = Intent(this, CastService::class.java).apply {
             putExtra("SERIAL", serial)
